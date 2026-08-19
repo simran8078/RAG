@@ -16,8 +16,14 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 # --------------------------------------------------
 # ENV SETUP (ONLY FOR LLM, NOT EMBEDDINGS)
 # --------------------------------------------------
+
 load_dotenv()
-GOOGLE_API_KEY= os.getenv('GOOGLE_API_KEY')
+GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
+
+def validate_google_api_key():
+    if not GOOGLE_API_KEY:
+        return "GOOGLE_API_KEY is missing. Add it to your .env file."
+    return None
 
 
 
@@ -115,7 +121,7 @@ Answer:
     )
 
     llm = ChatGoogleGenerativeAI(
-        model="gemini-2.5-flash-lite",
+        model="gemini-3.5-flash-lite",
         temperature=1.0,
         google_api_key=GOOGLE_API_KEY
     )
@@ -145,7 +151,12 @@ def answer_question(question):
     )
 
     response = llm.invoke(final_prompt)
-    return response.content
+    return response.content[0]['text']
+
+def validate_google_api_key():
+    if not GOOGLE_API_KEY:
+        return "GOOGLE_API_KEY is missing. Add it to your .env file and restart Streamlit."
+    return None
 
 
 # --------------------------------------------------
@@ -154,8 +165,10 @@ def answer_question(question):
 def main():
     st.set_page_config(page_title="Chat with PDF (Local Embeddings RAG)")
 
-    
-    
+    key_error = validate_google_api_key()
+    if key_error:
+        st.error(key_error)
+        st.stop()
     st.header("📄 Chat with PDF using RAG (Local Embeddings)")
 
     question = st.text_input("Ask a question from the uploaded PDFs")
