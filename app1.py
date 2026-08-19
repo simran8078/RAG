@@ -20,17 +20,6 @@ load_dotenv()
 GOOGLE_API_KEY= os.getenv('GOOGLE_API_KEY')
 
 
-def validate_google_api_key():
-    if not GOOGLE_API_KEY:
-        return "GOOGLE_API_KEY not found. Add it to your .env file."
-
-    if not GOOGLE_API_KEY.startswith("AIza"):
-        return (
-            "GOOGLE_API_KEY is not a valid Google AI Studio/Gemini API key. "
-            "Create a Gemini API key from Google AI Studio and paste it in .env."
-        )
-
-    return None
 
 
 # --------------------------------------------------
