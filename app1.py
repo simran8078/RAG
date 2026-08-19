@@ -126,7 +126,7 @@ Answer:
     )
 
     llm = ChatGoogleGenerativeAI(
-        model="gemini-3.5-flash-lite",
+        model="gemini-2.5-flash-lite",
         temperature=1.0,
         google_api_key=GOOGLE_API_KEY;
     )
